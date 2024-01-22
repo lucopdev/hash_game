@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  database:
+    container_name: mysql
+    image: mysql:8.0.29
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dbGame
+    ports:
+      - 3306:3306
+    env_file:
+      - ./.env
+    volumes:
+      - ./prisma:/prisma
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 10s
+      retries: 5

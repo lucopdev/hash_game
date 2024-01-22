@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  database:
+    container_name: bdGame
+    image: mysql:8.0.29
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: dbGame
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 10s
+      retries: 5
+
+  backend:
+    container_name: backend_rush_game
+    build:
+      context: ./backend_express
+      dockerfile: Dockerfile
+    ports:
+      - 3333:3333
+    working_dir: /backend_express
+    volumes:
+      - ./backend_express:/backend_express
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DB_USER=root
+      - DB_PASS=password
+      - DB_HOST=dbGame
+      - DB_PORT=3306
+    healthcheck:
+      test: ['CMD', 'lsof', '-t', '-i:3333']
+      timeout: 10s
+      retries: 5
+
+  frontend:
+    container_name: frontend_rush_rame
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+    working_dir: /frontend
+    volumes:
+      - ./frontend:/frontend
+    healthcheck:
+      test: ['CMD', 'lsof', '-t', '-i:4000']
+      timeout: 10s
+      retries: 5

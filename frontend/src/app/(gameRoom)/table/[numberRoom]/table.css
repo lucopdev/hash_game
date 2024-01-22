@@ -1,0 +1,9 @@
+@media screen and (max-width: 700px) {
+  .table-main {
+    width: 100%;
+  }
+
+  .table-outer {
+    width: 100%;
+  }
+}

@@ -1,0 +1,32 @@
+.text-shadow {
+  text-shadow: 3px 3px 3px black;
+}
+
+.fade-in {
+  animation: fade-in;
+  animation-duration: 0.5s;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    top: 0px;
+    padding-top: 0px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .login {
+    margin-top: 40%;
+  }
+
+  .modal {
+    top: -130px;
+    padding-top: 0px;
+    margin-top: 30%;
+  }
+}

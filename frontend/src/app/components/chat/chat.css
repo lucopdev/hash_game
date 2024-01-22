@@ -1,0 +1,27 @@
+@media screen and (max-width: 700px) {
+  .chat-main {
+    /* display: none; */
+    height: 75%;
+    margin-top: 50px;
+    justify-content: start;
+  }
+
+  .chat-main-inner {
+    height:94%;
+  }
+
+  .chat-display {
+    height: 100%;
+    width: 100%;
+    font-size: 8px;
+  }
+
+  .chat-inputs-main button {
+    width: 40%;
+    font-size: 10px;
+  }
+
+  .chat-inputs-main input {
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "rush_game",
+  "version": "1.0.0",
+  "description": "Personal record application",
+  "scripts": {
+    "test": "echo \" \n\n\n\n----> RUN THE TESTS IN SPECIFIC FOLDERS <----\"",
+    "install:front": "cd ./frontend && npm install",
+    "install:back": "cd ./backend_express && npm install",
+    "dev-docker": "docker-compose up -d --build && npm run install:front && npm run install:back",
+    "dev":"cd ./backend_express && nohup npm run dev & cd ./frontend && npm run dev"
+  },
+  "author": "Lucas Rosa",
+  "license": "ISC"
+}

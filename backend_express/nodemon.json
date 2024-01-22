@@ -1,0 +1,9 @@
+{
+  "execMap": {
+    "ts": "node --loader ts-node/esm"
+  },
+  "ext": "ts",
+  "watch": ["src"],
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "ts-node ./src/server.ts"
+}
