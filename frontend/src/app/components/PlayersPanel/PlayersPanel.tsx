@@ -13,12 +13,12 @@ export default function PlayersPanel(props: any) {
 
   return (
     <div className="panel-main flex flex-col self-start w-[100%] items-center">
-      <div className="panel-main-outer w-[100%] h-[150px] flex flex-col justify-between items-center border-4 rounded mt-[30%]">
+      <div className="panel-main-outer w-[100%] h-[150px] flex flex-col justify-between items-center bg-blue-800 rounded mt-[30%]">
         <h1 className="font-bold">In-game:</h1>
         <div className="player-display-outer flex flex-col justify-center items-center mb-[20px]">
           {playersInGame.map((player, index) => (
             <div
-              className="player-display flex items-center w-[100%] justify-start bg-green-500 pl-[5px] m-2 border"
+              className="player-display flex items-center w-[100%] justify-start bg-blue-500 pl-[5px] m-2 border rounded"
               key={index}
             >
               <span className="text-red-500 text-[20px]">{`${

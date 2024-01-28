@@ -1,27 +1,36 @@
 @media screen and (max-width: 700px) {
   .chat-main {
-    /* display: none; */
-    height: 75%;
-    margin-top: 50px;
+    border-radius: 10px;
+    height: 100%;
     justify-content: start;
   }
 
   .chat-main-inner {
-    height:94%;
+    border: none;
+    border-radius: 10px;
+    height: 370px;
+    width: 100%;
   }
 
   .chat-display {
-    height: 100%;
-    width: 100%;
+    border: none;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
     font-size: 8px;
+    height: 100%;
+    overflow: scroll;
+    width: 100%;
   }
 
   .chat-inputs-main button {
-    width: 40%;
+    border-radius: 2px;
     font-size: 10px;
+    width: 40px;
   }
-
   .chat-inputs-main input {
+    border: 1px solid rgba(255, 255, 255, 0.3);
     font-size: 10px;
+    padding-left: 5px;
+    width: 100%;
   }
 }

@@ -10,9 +10,7 @@
 
 import AppContext from '@/context/AppContext';
 import IAppContextProps from '@/interfaces/IAppContextProps';
-import Iplayer from '@/interfaces/Iplayer';
 import IroomStatus from '@/interfaces/IroomStatus';
-import throwDisplayMessage from '@/utils/throwDisplayMessage';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import './waitingroom.css';
@@ -29,12 +27,13 @@ export default function WaitingRoom() {
     useContext<IAppContextProps>(AppContext as React.Context<IAppContextProps>);
 
   useEffect(() => {
-    // SE NAO TEM COOKIES, PUSHA PARA O REGISTER
-    const cookiePlayer = JSON.parse(
-      decodeURIComponent(document.cookie.split(';')[0]).split('=')[1]
-    );
-    const username = cookiePlayer.username;
-    setChatName(username);
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      if (cookie.includes('player')) {
+        const player = JSON.parse(cookie.split('=')[1]);
+        setChatName(player.username);
+      }
+    }
 
     if (socket) {
       socket.on('joinAttempt', (data) => {
@@ -63,7 +62,6 @@ export default function WaitingRoom() {
         });
       } else {
         router.push('/waitingroom');
-        throwDisplayMessage(setDisplayMessage, roomStatus.message);
       }
 
       playersInGame.length < 2 && router.push(`/table/${numberRoom}`);
@@ -96,6 +94,10 @@ export default function WaitingRoom() {
     console.log(playersInGame);
   };
 
+  const logoutFunc = () => {
+    router.push('/register');
+  };
+
   return (
     <div className="waitingroom w-screen h-screen pt-[100px] flex flex-col items-center overflow-x-hidden">
       <h1 className="font-bold text-[20px] pb-[20px]">Lobby</h1>
@@ -122,6 +124,9 @@ export default function WaitingRoom() {
           ))}
         </div>
       </div>
+      <button onClick={logoutFunc} className="border p-2 rounded">
+        Logout
+      </button>
     </div>
   );
 }

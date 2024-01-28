@@ -29,7 +29,7 @@ export default function Score() {
         // tentar adicionar os pontos na hora que clica pra entrar na sala, no lobby;
       });
 
-      return () => {
+      return () => { 
         socket.offAny();
       };
     }
@@ -37,11 +37,11 @@ export default function Score() {
 
   return (
     <div className="score-main flex flex-row justify-center items-center mb-[20px]">
-      <div className="flex flex-col w-28 h-24 items-center justify-center bg-blue-900 m-5">
+      <div className="flex flex-col w-28 h-24 items-center justify-center bg-blue-900 m-5 rounded">
         <h1 className="text-[10px] text-center">PLAYER ONE</h1>
         <p className="text-[30px]">{scorePlayerOne}</p>
       </div>
-      <div className="flex flex-col w-28 h-24 items-center justify-center bg-green-900 m-5">
+      <div className="flex flex-col w-28 h-24 items-center justify-center bg-green-900 m-5 rounded">
         <h1 className="text-[10px] text-center">PLAYER TWO</h1>
         <p className="text-[30px]">{scorePlayerTwo}</p>
       </div>

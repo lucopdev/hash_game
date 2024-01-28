@@ -6,34 +6,25 @@
  * Versão: 0.0.1
  */
 
-// import './board.css';
 import Score from '../score/Score';
 import { useState, useContext, useEffect, useReducer } from 'react';
 import AppContext from '@/context/AppContext';
 import IAppContextProps from '@/interfaces/IAppContextProps';
-import IroomStatus from '@/interfaces/IroomStatus';
 import Chat from '../chat/Chat';
 import Iplayer from '@/interfaces/Iplayer';
 import PlayersPanel from '../PlayersPanel/PlayersPanel';
-import { useRouter } from 'next/navigation';
 import throwDisplayMessage from '@/utils/throwDisplayMessage';
 
 export default function Board() {
   const [displayMessage, setDisplayMessage] = useState('');
-  const [boardSize, setBoardSize] = useState<number>(9);
 
-  const { socket, chatName, setChatName, player, setPlayer, playersInGame, setPlayersInGame } =
-    useContext<IAppContextProps>(AppContext as React.Context<IAppContextProps>);
+  const { socket, chatName, player, setPlayer, playersInGame } = useContext<IAppContextProps>(
+    AppContext as React.Context<IAppContextProps>
+  );
 
   useEffect(() => {
     const playerByName = playersInGame.find((player: Iplayer) => player.username === chatName);
     playerByName && setPlayer(playerByName);
-
-    const cookiePlayer = JSON.parse(
-      decodeURIComponent(document.cookie.split(';')[0]).split('=')[1]
-    );
-    const username = cookiePlayer.username;
-    setChatName(username);
 
     if (socket) {
       socket.on('recivedMove', makeMove);
@@ -45,7 +36,15 @@ export default function Board() {
   }, [socket, player, playersInGame]);
 
   useEffect(() => {
-    throwDisplayMessage(setDisplayMessage, `${chatName} logged as player: ${player.playerNumber}`);
+    if (socket) {
+      socket.on('recivedLoginMessage', (data) => {
+        throwDisplayMessage(setDisplayMessage, data.message);
+      });
+
+      return () => {
+        socket.offAny();
+      };
+    }
   }, []);
 
   const makeDiv = (nSquares: number) => {
@@ -98,7 +97,7 @@ export default function Board() {
             <h1 className="flex justify-center font-bold h-[30px]">{displayMessage}</h1>
             <div className="board-inner flex flex-col items-center justify-center">
               <div className="board box-border m-5 flex flex-wrap items-center justify-center w-60 h-fit">
-                {makeDiv(boardSize)}
+                {makeDiv(9)}
               </div>
               <Score />
             </div>

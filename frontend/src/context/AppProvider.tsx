@@ -10,12 +10,12 @@ interface AppProviderProps {
   children: ReactNode;
 }
 
-const ENDPOINT = 'http://hash.silvergames.com.br:40001';
+const ENDPOINT = 'http://localhost:40001';
 const newSocket = io(ENDPOINT);
 
 function AppProvider({ children }: AppProviderProps) {
   const [socket, setSocket] = useState<Socket | any>(null);
-  const [chatName, setChatName] = useState<string>('');
+  const [chatName, setChatName] = useState<string | undefined>('');
   const [playersInGame, setPlayersInGame] = useState<Iplayer[]>([]);
   const [playersInLobby, setPlayersInLobby] = useState<Iplayer[]>([]);
   const [player, setPlayer] = useState<Iplayer>({

@@ -69,7 +69,7 @@ export default function Chat() {
     }
   };
   return (
-    <div className="chat-main flex flex-col justify-center items-center">
+    <div className="chat-main flex flex-col ">
       <div className="chat-main-inner border-r-2 rounded-l">
         <div
           ref={messagesRef}
@@ -84,17 +84,17 @@ export default function Chat() {
             </div>
           </div>
         </div>
-        <div className="chat-inputs-main flex w-[101%]">
+        <div className="chat-inputs-main flex w-[100%] justify-start items-center">
           <input
             onKeyDown={(e) => handleKeyPress(e)}
             onChange={handleChange}
             value={chatText}
-            className="flex text-white font-medium w-[100%] pl-3  h-[30px] border-t bg-slate-500 bg-opacity-20 resize-none overflow-hidden outline-none focus:border"
+            className="flex text-white font-medium w-[100%] h-[30px] bg-slate-500 bg-opacity-20 resize-none overflow-hidden outline-none focus:border pl-2"
             disabled={isDisabled}
           />
           <button
             onClick={emitMsg}
-            className="w-[100px] h-[30px] font-medium rounded-br bg-green-500 hover:bg-green-600 active:bg-green-600 shadow-md border border-green-500 transition-transform transform active:scale-95"
+            className="w-[70px] h-[30px] font-medium bg-green-500 hover:bg-green-600 active:bg-green-600 shadow-md border border-green-500 transition-transform transform active:scale-95"
           >
             SEND
           </button>

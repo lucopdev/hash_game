@@ -5,8 +5,8 @@ import Iplayers from './Iplayers';
 export default interface IAppContextProps {
   player: Iplayer;
   setPlayer: React.Dispatch<React.SetStateAction<Iplayer>>;
-  chatName: string;
-  setChatName: React.Dispatch<React.SetStateAction<string>>;
+  chatName: string | undefined;
+  setChatName: React.Dispatch<React.SetStateAction<string | undefined>>;
   playersInLobby: Iplayer[];
   setPlayersInLobby: React.Dispatch<React.SetStateAction<Iplayer[]>>;
   playersInGame: Iplayer[];
