@@ -25,11 +25,9 @@ export default function Score() {
         const player2 = players.find((player: Iplayer) => player.playerNumber === 2);
         player1 && setScorePLayerOne(player1.points);
         player2 && setScorePLayerTwo(player2.points);
-
-        // tentar adicionar os pontos na hora que clica pra entrar na sala, no lobby;
       });
 
-      return () => { 
+      return () => {
         socket.offAny();
       };
     }

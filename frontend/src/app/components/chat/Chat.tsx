@@ -16,7 +16,7 @@ import '@components/chat/chat.css';
 export default function Chat() {
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [chatText, setChatText] = useState<string>('');
-  const [counter, setCounter] = useState<number>(0);
+
   const [socketMsgRecived, setSocketMgsRecived] = useState<JSX.Element[]>([]);
   const { chatName, socket } = useContext<IAppContextProps>(
     AppContext as React.Context<IAppContextProps>
@@ -42,14 +42,13 @@ export default function Chat() {
   }, [socket, socketMsgRecived]);
 
   const emitMsg = () => {
-    if (!clearChat()) {
+    if (!clearChat() && chatText.length > 0) {
       socket.emit('message', `${chatName}: ${chatText}`); //tenho que fazer uma emissão para cada player no socket?
       setChatText('');
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    setCounter((prevCounter) => prevCounter + 1);
     if (e.key === 'Enter') {
       emitMsg();
     }
@@ -68,6 +67,7 @@ export default function Chat() {
       return true;
     }
   };
+
   return (
     <div className="chat-main flex flex-col ">
       <div className="chat-main-inner border-r-2 rounded-l">
