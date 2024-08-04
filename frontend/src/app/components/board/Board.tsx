@@ -92,18 +92,20 @@ export default function Board() {
         <div className="board-chat-outer">
           <Chat />
         </div>
-        <div className="board-main-inner flex w-[100%] justify-around items-center">
-          <div className="board-outer flex flex-col w-[60%] items-center justify-center">
-            <h1 className="flex justify-center font-bold h-[30px]">{displayMessage}</h1>
-            <div className="board-inner flex flex-col items-center justify-center">
-              <div className="board box-border m-5 flex flex-wrap items-center justify-center w-60 h-fit">
-                {makeDiv(9)}
+        <div className="board-main-inner-contaniner flex flex-col w-[100%] justify-center items-center">
+          <h1 className="flex justify-center text-center font-bold h-[30px] w-[100%]">{displayMessage}</h1>
+          <div className="board-main-inner flex w-[100%] justify-around h-[100%] items-center">
+            <div className="board-outer flex flex-col w-[60%] h-[100%] items-center justify-center">
+              <div className="board-inner flex flex-col items-center justify-center">
+                <div className="board box-border m-5 flex flex-wrap items-center justify-center w-60 h-fit">
+                  {makeDiv(9)}
+                </div>
+                <Score />
               </div>
-              <Score />
             </div>
-          </div>
-          <div className="players-panel flex flex-row self-start w-[40%] mr-[25px]">
-            <PlayersPanel throwDisplayMessage={throwDisplayMessage} />
+            <div className="players-panel flex flex-row self-start w-[40%] mt-[5%] mr-[30px]">
+              <PlayersPanel throwDisplayMessage={throwDisplayMessage} />
+            </div>
           </div>
         </div>
       </div>

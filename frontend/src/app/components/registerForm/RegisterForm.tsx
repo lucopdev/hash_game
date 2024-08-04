@@ -53,7 +53,6 @@ export default function RegisterForm(props: any) {
     try {
       if (buttonType === 'login') {
         login = await fetchApiLogin(payload);
-        joinLobby(login.username);
       } else {
         register = await fetchApiRegister(payload);
       }
@@ -75,9 +74,9 @@ export default function RegisterForm(props: any) {
 
       if (login !== null && login.status === 'SUCCESSFUL') {
         const token = JSON.stringify(login.token);
-
         document.cookie = `token=${token}`;
-        router.push('/waitingroom');
+
+        joinLobby(login.username);
       }
     }
   };
@@ -99,6 +98,7 @@ export default function RegisterForm(props: any) {
       })}`;
 
       socket.offAny();
+      router.push('/waitingroom');
     }
   };
 

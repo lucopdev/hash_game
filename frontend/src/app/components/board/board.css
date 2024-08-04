@@ -21,35 +21,44 @@
 @media screen and (max-width: 700px) {
   .board-main {
     border: 2px solid white;
-    height: fit-content;
+    height: 450px;
     overflow: hidden;
     width: 95%;
+    align-items: flex-start;
+    margin: 0;
+    padding: 0;
   }
 
   .board-main-outer {
     justify-content: space-between;
-    width: 85%;
     padding-bottom: 20px;
+    width: 85%;
   }
 
   .board-chat-outer {
-    margin-top: 50px;
-    width: 40%;
+    margin-top: 35px;
+    width: 45%;
   }
+
+  .board-main-inner-contaniner {
+    width: 50%;
+}
 
   .board-main-inner {
     align-items: center;
     border: none;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    width: 100%;
   }
   .board-outer {
     width: 100%;
   }
 
-  .board-outer > h1:first-child {
+  .board-main-inner-contaniner > h1:first-child {
+    align-self: flex-end;
     font-size: 10px;
+    height: 15px;
     width: 100%;
   }
 
@@ -66,7 +75,7 @@
     align-items: center;
     align-self: center;
     justify-content: center;
-    margin-right: 0;
-    width: 90%;
+    margin: 0;
+    width: 100%;
   }
 }

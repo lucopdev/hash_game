@@ -52,7 +52,7 @@ const resetSequence = () => {
 };
 
 const disconnectRoom = (socket: Socket) => {
-  if (players.find(player => player.id === socket.id)) {
+  if (players.find((player) => player.id === socket.id)) {
     const playerIndex = players.findIndex((player) => player.id === socket.id);
     players.splice(playerIndex, 1);
     resetBoard();
@@ -63,20 +63,25 @@ const disconnectRoom = (socket: Socket) => {
 
 io.on('connection', (socket: Socket) => {
   console.log(`New player conected: ${socket.id}`);
+  let player;
 
   socket.on('joinRoom', (data: { id: string; username: string }) => {
     if (players.length < 2 && !players.find((player) => player.username === data.username)) {
-      players.push({
+      player = {
         id: socket.id,
         username: data.username,
         playerNumber: !players.some((player) => player.playerNumber === 1) ? 1 : 2,
         points: 0,
         sequence: [],
         mark: !players.some((player) => player.mark === 'X') ? 'X' : 'O',
-      });
+      };
+      players.push(player);
 
-      io.emit('joinAttempt', { success: true, user: data.username, message: 'Loading...'});
+      io.emit('joinAttempt', { success: true, user: data.username, message: 'Loading...' });
       io.emit('updatePlayers', players);
+      io.emit('recivedLoginMessage', {
+        message: `${player.username} entrou como player${player.playerNumber}`,
+      });
     } else {
       socket.emit('joinAttempt', {
         success: false,
@@ -116,7 +121,7 @@ io.on('connection', (socket: Socket) => {
       currentTurn = currentTurn === 1 ? 2 : 1;
       io.emit('currentTurn', currentTurn);
     }
-
+    
     players.some((player) => player.sequence.length > 4) && resetBoard();
   });
 
@@ -136,6 +141,12 @@ io.on('connection', (socket: Socket) => {
 
   socket.on('disconnect', () => {
     disconnectRoom(socket);
+
+    socket.removeAllListeners('makeMove');
+    socket.removeAllListeners('resetBoard');
+    socket.removeAllListeners('resetPoints');
+    socket.removeAllListeners('message');
+    socket.removeAllListeners('disconnectRoomFunction');
 
     io.emit('updatePlayers', players);
   });

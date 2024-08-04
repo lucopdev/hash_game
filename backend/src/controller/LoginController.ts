@@ -1,4 +1,3 @@
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import connectDB, { prisma } from '../lib/connectDB';
@@ -12,28 +11,32 @@ connectDB();
 const postLogin = async (req: Request, res: Response) => {
   try {
     const createUserSchema = z.object({
-      username: z.string(),
+      email: z.string(),
       password: z.string(),
     });
 
-    const { username, password } = createUserSchema.parse(req.body);
+    const { email, password } = createUserSchema.parse(req.body);
 
-    const user = await prisma.user.findFirstOrThrow({ where: { username } });
+    const user = await prisma.user.findFirstOrThrow({ where: { email: email } });
+
     if (!user) {
-      return res.status(404).json({ message: `${username} doesn't exist.` });
+      return res.status(404).json({ message: `${email} doesn't exist.` });
     }
 
     if (password) {
       const isPasswordTrue = await bcrypt.compare(password, user.password);
       if (isPasswordTrue) {
         const secretKey: string = process.env.SECRET || 'secret';
-        const token = generateToken(username, secretKey);
+        const token = generateToken(email, secretKey);
 
         process.env.TOKEN = token;
 
-        return res
-          .status(200)
-          .json({ status: 'SUCCESSFUL', message: `User ${username} is logged.`, token });
+        return res.status(200).json({
+          status: 'SUCCESSFUL',
+          message: `User ${email} is logged.`,
+          token,
+          username: user.username,
+        });
       }
     } else {
       return res.status(400).json({ status: 'ERROR', message: 'password is missing' });

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
 import connectDB, { prisma } from '../lib/connectDB';
-import INewUser from '../interfaces/INewUser';
+import InewUser from '../interfaces/InewUser';
 import z from 'zod';
 import bcrypt from 'bcryptjs';
 
@@ -16,6 +16,7 @@ const getAllUsers = async (_req: Request, res: Response): Promise<Response> => {
 
   const userResponse = users.map((user) => {
     return {
+      email: user.email,
       username: user.username,
       created_at: user.createdAt,
     };
@@ -27,19 +28,35 @@ const getAllUsers = async (_req: Request, res: Response): Promise<Response> => {
 const createUser = async (req: Request, res: Response): Promise<Response> => {
   try {
     const createUserSchema = z.object({
-      username: z.string(),
-      password: z.string().min(6, { message: 'Password must be 6 or more characters long.' }),
+      email: z.string().email({ message: 'invalid e-mail' }),
+      username: z.string().min(6, { message: 'Username must have 6 to 10 characters.' }).max(10),
+      password: z.string().min(8, { message: 'Password must have 8 or more characters.' }),
     });
 
-    const { username, password } = createUserSchema.parse(req.body);
+    const { email, username, password } = createUserSchema.parse(req.body);
     const cryptedPassword = await bcrypt.hash(password, 10);
 
-    const newUser: INewUser = {
+    const newUser: InewUser = {
       data: {
+        email: email,
         username: username,
         password: cryptedPassword,
       },
     };
+
+    const userFound = await prisma.user.findFirst({
+      where: { OR: [{ email: newUser.data.email }, { username: newUser.data.username }] },
+    });
+
+    if (userFound?.email === newUser.data.email) {
+      return res
+        .status(400)
+        .json({ status: 'ERROR', error: { issues: [{ message: 'Email already registered' }] } });
+    } else if (userFound?.username === newUser.data.username) {
+      return res
+        .status(400)
+        .json({ status: 'ERROR', error: { issues: [{ message: 'Username already registered' }] } });
+    }
 
     const user = await prisma.user.create(newUser);
     const userResponse = {

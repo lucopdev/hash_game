@@ -1,5 +1,5 @@
 # Jogo da Velha Multiplayer Online
-![HashGame_2.0](./images/hashgame_2.0.png)
+![HashGame_2.0](./images/hashgame_1.1.2.png)
 <div style="max-width: 800px">
 Bem-vindo ao <b>Jogo da Velha Multiplayer Online!</b> Este é um jogo clássico reinventado com a funcionalidade de <b>chat em tempo real</b>, tornando a diversão ainda mais interativa.
 

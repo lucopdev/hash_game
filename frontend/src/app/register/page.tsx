@@ -1,11 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './register.css';
 import RegisterForm from '@/app/components/registerForm/RegisterForm';
+import deleteCookies from '@/utils/deleteCookies';
 
 export default function Register() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    deleteCookies(['player', 'token'], ['/', '/table']);
+  },[])
 
   const registerFunction = () => {
     setIsModalOpen(true);

@@ -14,6 +14,7 @@ import IroomStatus from '@/interfaces/IroomStatus';
 import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
 import './waitingroom.css';
+import deleteCookies from '@/utils/deleteCookies';
 
 export default function WaitingRoom() {
   const router = useRouter();
@@ -95,6 +96,7 @@ export default function WaitingRoom() {
   };
 
   const logoutFunc = () => {
+    deleteCookies(['player', 'token'], ['/', '/table']);
     router.push('/register');
   };
 

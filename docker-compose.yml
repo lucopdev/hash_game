@@ -2,53 +2,56 @@ version: '3'
 
 services:
   database:
-    container_name: bdGame
+    container_name: mysql
     image: mysql:8.0.29
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: Password85!
       MYSQL_DATABASE: dbGame
     ports:
       - 3306:3306
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./prisma:/prisma
     healthcheck:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       timeout: 10s
       retries: 5
 
   backend:
-    container_name: backend_rush_game
+    container_name: backend_hashGame
     build:
-      context: ./backend_express
+      context: ./backend
       dockerfile: Dockerfile
     ports:
-      - 3333:3333
-    working_dir: /backend_express
+      - 40001:40001
+    working_dir: /backend
     volumes:
-      - ./backend_express:/backend_express
+      - ./backend:/backend
     depends_on:
       database:
         condition: service_healthy
     environment:
       - DB_USER=root
-      - DB_PASS=password
+      - DB_PASS=Password85!
       - DB_HOST=dbGame
       - DB_PORT=3306
     healthcheck:
-      test: ['CMD', 'lsof', '-t', '-i:3333']
+      test: ['CMD', 'lsof', '-t', '-i:40001']
       timeout: 10s
       retries: 5
 
   frontend:
-    container_name: frontend_rush_rame
+    container_name: frontend_hashGame
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - 4000:4000
+      - 40000:40000
     working_dir: /frontend
     volumes:
       - ./frontend:/frontend
     healthcheck:
-      test: ['CMD', 'lsof', '-t', '-i:4000']
+      test: ['CMD', 'lsof', '-t', '-i:40000']
       timeout: 10s
       retries: 5
